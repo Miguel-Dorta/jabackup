@@ -33,6 +33,7 @@ public abstract class Main {
 
     private static String ib, ob;
     private static boolean verbose;
+    private static int every;
 
     public static void main(String args[]) {
         ib = null;
@@ -65,6 +66,8 @@ public abstract class Main {
                     if (arg.charAt(0) == '-') {
                         if (arg.charAt(1) == '-') {
                             switch (arg.substring(2)) {
+                                case "full":
+                                    return createFullBackup();
                                 case "help":
                                     return printHelp();
                                 case "update":
@@ -80,6 +83,8 @@ public abstract class Main {
                         } else {
                             for (int i = 1; i < arg.length(); i++) {
                                 switch (arg.charAt(i)) {
+                                    case 'f':
+                                        return createFullBackup();
                                     case 'h':
                                         return printHelp();
                                     case 'u':
@@ -97,6 +102,8 @@ public abstract class Main {
                             ib = arg.substring(3);
                         } else if (arg.startsWith("ob=")) {
                             ob = arg.substring(3);
+                        } else if (arg.startsWith("every=")) {
+                            every = Integer.parseInt(arg.substring(6));
                         } else {
                             throw new InvalidArgumentException(arg);
                         }
@@ -120,8 +127,13 @@ public abstract class Main {
         }
     }
 
+    private static int createFullBackup() {
+        System.out.println("Not supported yet");
+        return 0;
+    }
+
     private static int printHelp() {
-        System.out.println(":: jabackup help ::\nHow to use:   java -jar jabackup.jar [args]\n\nARGUMENTS:\n  ib=<path>      Define the directory to make a backup of.\n  ob=<path>      Define the directory to store the backups.\n  -h, --help     Shows this message.\n  -u, --update   Updates jabackup at the latest stable version.\n  -v, --verbose  Displays detailled information.\n  --version      Displays jabackup version.\n\nExample:\n  java -jar jabackup.jar ib=/home/myuser/ ob=/mnt/backups/jabackup/\n  java -jar jabackup.jar --update\n\nNotes:\n  Arguments like \"--help\", \"--update\" or \"--version\" will stop the\n  execution of the program even if there are other parameters defined.");
+        System.out.println(":: jabackup help ::\nHow to use:   java -jar jabackup.jar [args]\n\nARGUMENTS:\n  every=<int>    Define the frequency to create full backups. 0 to\n                 disable. 8 as default.\n  ib=<path>      Define the directory to make a backup of.\n  ob=<path>      Define the directory to store the backups.\n  -f, --full     Creates a full backup instead of incremental.\n  -h, --help     Shows this message.\n  -u, --update   Updates jabackup at the latest stable version.\n  -v, --verbose  Displays detailled information.\n  --version      Displays jabackup version.\n\nExample:\n  java -jar jabackup.jar ib=/home/myuser/ ob=/mnt/backups/jabackup/\n  java -jar jabackup.jar --update\n\nNotes:\n  Arguments like \"--help\", \"--update\" or \"--version\" will stop the\n  execution of the program even if there are other parameters defined.\n\n  The \"every\" argument is preserved between backups. The previous\n  value will be overwritten when you define it.\n");
         return 0;
     }
 
