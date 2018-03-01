@@ -23,6 +23,7 @@
  */
 package com.migueldorta.jabackup;
 
+import com.migueldorta.jabackup.exceptions.InvalidArgumentException;
 import com.migueldorta.jabackup.filesystem.Directory;
 
 /**
@@ -38,10 +39,11 @@ public abstract class Main {
         ob = null;
         verbose = false;
 
-        readArgs(args);
-        if (ib != null && ob != null) {
-            createOriginTree();
+        int exitCode = readArgs(args);
+        if (exitCode > 0) {
+            System.exit(exitCode);
         }
+        createOriginTree();
     }
 
     public static boolean getVerbose() {
@@ -54,9 +56,9 @@ public abstract class Main {
         System.out.println("Done!");
     }
 
-    private static void readArgs(String args[]) {
+    private static int readArgs(String args[]) {
         if (args.length == 0) {
-            printHelp();
+            return printHelp();
         } else {
             try {
                 for (String arg : args) {
@@ -64,33 +66,29 @@ public abstract class Main {
                         if (arg.charAt(1) == '-') {
                             switch (arg.substring(2)) {
                                 case "help":
-                                    printHelp();
-                                    break;
+                                    return printHelp();
                                 case "update":
-                                    updateJabackup();
-                                    break;
+                                    return updateJabackup();
                                 case "verbose":
                                     verbose = true;
                                     break;
                                 case "version":
-                                    printVersion();
-                                    break;
+                                    return printVersion();
                                 default:
-                                    throw new Exception("Invalid argument: " + arg);
+                                    throw new InvalidArgumentException(arg);
                             }
                         } else {
                             for (int i = 1; i < arg.length(); i++) {
                                 switch (arg.charAt(i)) {
                                     case 'h':
-                                        printHelp();
-                                        break;
+                                        return printHelp();
                                     case 'u':
-                                        updateJabackup();
+                                        return updateJabackup();
                                     case 'v':
                                         verbose = true;
                                         break;
                                     default:
-                                        throw new Exception("Invalid argument: " + arg);
+                                        throw new InvalidArgumentException(arg);
                                 }
                             }
                         }
@@ -100,29 +98,40 @@ public abstract class Main {
                         } else if (arg.startsWith("ob=")) {
                             ob = arg.substring(3);
                         } else {
-                            throw new Exception("Invalid argument: " + arg);
+                            throw new InvalidArgumentException(arg);
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                System.out.println("Error parsing number");
+                return 1;
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Error parsing a parameter");
+                return 1;
+            } catch (InvalidArgumentException e) {
                 System.out.println(e.getMessage());
-                System.exit(64);
+                return 1;
             }
+            if (ib != null && ob != null) {
+                System.out.println("You need to define both, \"ib=\" and \"ob=\"");
+                return 1;
+            }
+            return -1;
         }
     }
 
-    private static void printHelp() {
+    private static int printHelp() {
         System.out.println(":: jabackup help ::\nHow to use:   java -jar jabackup.jar [args]\n\nARGUMENTS:\n  ib=<path>      Define the directory to make a backup of.\n  ob=<path>      Define the directory to store the backups.\n  -h, --help     Shows this message.\n  -u, --update   Updates jabackup at the latest stable version.\n  -v, --verbose  Displays detailled information.\n  --version      Displays jabackup version.\n\nExample:\n  java -jar jabackup.jar ib=/home/myuser/ ob=/mnt/backups/jabackup/\n  java -jar jabackup.jar --update\n\nNotes:\n  Arguments like \"--help\", \"--update\" or \"--version\" will stop the\n  execution of the program even if there are other parameters defined.");
-        System.exit(0);
+        return 0;
     }
 
-    private static void printVersion() {
+    private static int printVersion() {
         System.out.println("Not supported yet");
-        System.exit(0);
+        return 0;
     }
 
-    private static void updateJabackup() {
+    private static int updateJabackup() {
         System.out.println("Not supported yet");
-        System.exit(0);
+        return 0;
     }
 }
