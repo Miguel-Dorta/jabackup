@@ -23,20 +23,35 @@
  */
 package com.migueldorta.jabackup;
 
+import com.migueldorta.jabackup.filesystem.Directory;
+
 /**
  * @author Miguel Dorta
  */
 public abstract class Main {
 
-    private static String bi, bo;
+    private static String ib, ob;
     private static boolean verbose;
 
     public static void main(String args[]) {
-        bi = null;
-        bo = null;
+        ib = null;
+        ob = null;
         verbose = false;
 
         readArgs(args);
+        if (ib != null && ob != null) {
+            createOriginTree();
+        }
+    }
+
+    public static boolean getVerbose() {
+        return verbose;
+    }
+
+    private static void createOriginTree() {
+        System.out.println(":: Saving origin file tree...");
+        Directory origin = new Directory(ib);
+        System.out.println("Done!");
     }
 
     private static void readArgs(String args[]) {
@@ -80,10 +95,10 @@ public abstract class Main {
                             }
                         }
                     } else {
-                        if (arg.startsWith("bi=")) {
-                            bi = arg.substring(3);
-                        } else if (arg.startsWith("bo=")) {
-                            bo = arg.substring(3);
+                        if (arg.startsWith("ib=")) {
+                            ib = arg.substring(3);
+                        } else if (arg.startsWith("ob=")) {
+                            ob = arg.substring(3);
                         } else {
                             throw new Exception("Invalid argument: " + arg);
                         }

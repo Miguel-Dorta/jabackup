@@ -23,21 +23,10 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
-import java.io.IOException;
-
 public class File extends ObjectFS {
 
     public File(String path) {
         super(path);
-    }
-
-    @Override
-    public boolean create() {
-        try {
-            return createNewFile();
-        } catch (IOException ex) {
-            return false;
-        }
     }
 
 }

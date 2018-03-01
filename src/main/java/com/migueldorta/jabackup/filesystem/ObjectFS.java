@@ -29,6 +29,4 @@ public abstract class ObjectFS extends java.io.File {
         super(path);
     }
 
-    public abstract boolean create();
-
 }
