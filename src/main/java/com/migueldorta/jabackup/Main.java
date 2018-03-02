@@ -119,7 +119,7 @@ public abstract class Main {
                 System.out.println(e.getMessage());
                 return 1;
             }
-            if (ib != null && ob != null) {
+            if (ib == null || ob == null) {
                 System.out.println("You need to define both, \"ib=\" and \"ob=\"");
                 return 1;
             }
