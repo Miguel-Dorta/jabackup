@@ -80,7 +80,7 @@ public abstract class Main {
                                 default:
                                     throw new InvalidArgumentException(arg);
                             }
-                        } else {
+                        } else if (arg.charAt(1) != 'X') {
                             for (int i = 1; i < arg.length(); i++) {
                                 switch (arg.charAt(i)) {
                                     case 'f':
