@@ -23,17 +23,12 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
-import com.migueldorta.jabackup.Main;
-
 public class Directory extends ObjectFS {
 
     ObjectFS[] list;
 
     public Directory(String path) {
         super(path);
-        if (Main.getVerbose()) {
-            System.out.println("Adding " + path);
-        }
         list = listDirectory(super.listFiles());
     }
 

@@ -23,10 +23,15 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
+import com.migueldorta.jabackup.Main;
+
 public abstract class ObjectFS extends java.io.File {
 
     public ObjectFS(String path) {
         super(path);
+        if (Main.getVerbose()) {
+            System.out.println("[Adding] " + path);
+        }
     }
 
 }
