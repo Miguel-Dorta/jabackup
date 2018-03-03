@@ -41,7 +41,7 @@ public abstract class Main {
         verbose = false;
 
         int exitCode = readArgs(args);
-        if (exitCode > 0) {
+        if (exitCode >= 0) {
             System.exit(exitCode);
         }
         createOriginTree();
