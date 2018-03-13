@@ -23,10 +23,27 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
-public class File extends ObjectFS {
+import java.io.File;
 
-    public File(String path) {
+public class DirectoryFS extends ObjectFS {
+
+    ObjectFS[] list;
+
+    public DirectoryFS(String path) {
         super(path);
+        list = listDirectory(super.listFiles());
     }
 
+    private static ObjectFS[] listDirectory(File[] fileArray) {
+        ObjectFS[] fsList = new ObjectFS[fileArray.length];
+        for (int i = 0; i < fileArray.length; i++) {
+            File f = fileArray[i];
+            if (f.isDirectory()) {
+                fsList[i] = new DirectoryFS(f.getPath());
+            } else if (f.isFile()) {
+                fsList[i] = new FileFS(f.getPath());
+            }
+        }
+        return fsList;
+    }
 }

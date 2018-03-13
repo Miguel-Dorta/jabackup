@@ -23,7 +23,7 @@
  */
 package com.migueldorta.jabackup;
 
-import com.migueldorta.jabackup.filesystem.Directory;
+import com.migueldorta.jabackup.filesystem.DirectoryFS;
 
 /**
  * @author Miguel Dorta
@@ -52,7 +52,7 @@ public abstract class Main {
 
     private static void createOriginTree() {
         System.out.println(":: Saving origin file tree...");
-        Directory origin = new Directory(input);
+        DirectoryFS origin = new DirectoryFS(input);
         System.out.println("Done!");
     }
 
