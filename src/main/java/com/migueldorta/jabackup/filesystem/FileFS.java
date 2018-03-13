@@ -23,10 +23,41 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class FileFS extends ObjectFS {
 
-    public FileFS(String path) {
+    byte[] md5;
+
+    public FileFS(String path) throws IOException, NoSuchAlgorithmException {
         super(path);
+        md5 = getMD5();
+    }
+
+    public byte[] getSHA1() throws IOException, NoSuchAlgorithmException {
+        return getChecksum("SHA-1", this);
+    }
+
+    private byte[] getMD5() throws IOException, NoSuchAlgorithmException {
+        return getChecksum("MD5", this);
+    }
+
+    private static byte[] getChecksum(String algorithm, File file) throws IOException, NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance(algorithm);
+        FileInputStream fis = new FileInputStream(file);
+        byte[] byteArray = new byte[1024];
+
+        int bytesCount = 0;
+        while ((bytesCount = fis.read(byteArray)) != -1) {
+            md.update(byteArray, 0, bytesCount);
+        }
+        fis.close();
+
+        return md.digest();
     }
 
 }

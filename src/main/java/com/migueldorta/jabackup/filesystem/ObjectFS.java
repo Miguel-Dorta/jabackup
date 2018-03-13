@@ -24,8 +24,9 @@
 package com.migueldorta.jabackup.filesystem;
 
 import com.migueldorta.jabackup.Main;
+import java.io.File;
 
-public abstract class ObjectFS extends java.io.File {
+public abstract class ObjectFS extends File {
 
     public ObjectFS(String path) {
         super(path);

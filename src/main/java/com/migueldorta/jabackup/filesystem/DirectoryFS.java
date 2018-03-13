@@ -26,6 +26,7 @@ package com.migueldorta.jabackup.filesystem;
 import com.migueldorta.jabackup.Main;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 public class DirectoryFS extends ObjectFS {
@@ -45,7 +46,18 @@ public class DirectoryFS extends ObjectFS {
                 if (f.isDirectory()) {
                     fsList[i] = new DirectoryFS(f.getPath());
                 } else if (f.isFile()) {
-                    fsList[i] = new FileFS(f.getPath());
+                    try {
+                        fsList[i] = new FileFS(f.getPath());
+                    } catch (Exception e) {
+                        fsList[i] = null;
+                        String reason;
+                        if (e instanceof IOException) {
+                            reason = "I/O Error. Do you have access to that file?";
+                        } else {
+                            reason = "Unknown. Report this in https://github.com/Miguel-Dorta/jabackup/issues\n" + e.getStackTrace();
+                        }
+                        System.out.println("Error adding " + f + "\nReason: " + reason);
+                    }
                 }
             }
         }
