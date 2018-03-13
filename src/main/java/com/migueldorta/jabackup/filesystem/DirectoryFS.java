@@ -23,7 +23,10 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
+import com.migueldorta.jabackup.Main;
+
 import java.io.File;
+import java.nio.file.Files;
 
 public class DirectoryFS extends ObjectFS {
 
@@ -38,10 +41,12 @@ public class DirectoryFS extends ObjectFS {
         ObjectFS[] fsList = new ObjectFS[fileArray.length];
         for (int i = 0; i < fileArray.length; i++) {
             File f = fileArray[i];
-            if (f.isDirectory()) {
-                fsList[i] = new DirectoryFS(f.getPath());
-            } else if (f.isFile()) {
-                fsList[i] = new FileFS(f.getPath());
+            if (!Files.isSymbolicLink(f.toPath()) || Main.getFollowSymbolicLinks()) {
+                if (f.isDirectory()) {
+                    fsList[i] = new DirectoryFS(f.getPath());
+                } else if (f.isFile()) {
+                    fsList[i] = new FileFS(f.getPath());
+                }
             }
         }
         return fsList;

@@ -27,17 +27,21 @@ import com.migueldorta.jabackup.exceptions.InvalidArgumentException;
 
 public abstract class ArgumentReader {
 
-    public static final String INPUT = "ib=",
+    public static final String
+            INPUT = "ib=",
             OUTPUT = "ob=",
             FREQUENCY = "every=",
             FULL_STRING = "full",
             HELP_STRING = "help",
+            SYMLINK_STRING = "link",
             UPDATE_STRING = "update",
             VERBOSE_STRING = "verbose",
             VERSION_STRING = "version";
 
-    public static final char FULL_CHAR = 'f',
+    public static final char
+            FULL_CHAR = 'f',
             HELP_CHAR = 'h',
+            SYMLINK_CHAR = 'l',
             UPDATE_CHAR = 'u',
             VERBOSE_CHAR = 'v';
 
@@ -54,6 +58,9 @@ public abstract class ArgumentReader {
                                     return Main.createFullBackup();
                                 case HELP_STRING:
                                     return printHelp();
+                                case SYMLINK_STRING:
+                                    Main.setFollowSymbolicLinks(true);
+                                    break;
                                 case UPDATE_STRING:
                                     return Main.updateJabackup();
                                 case VERBOSE_STRING:
@@ -71,6 +78,9 @@ public abstract class ArgumentReader {
                                         return Main.createFullBackup();
                                     case HELP_CHAR:
                                         return printHelp();
+                                    case SYMLINK_CHAR:
+                                        Main.setFollowSymbolicLinks(true);
+                                        break;
                                     case UPDATE_CHAR:
                                         return Main.updateJabackup();
                                     case VERBOSE_CHAR:
@@ -139,6 +149,12 @@ public abstract class ArgumentReader {
         sb.append(", --");
         sb.append(HELP_STRING);
         sb.append("     Shows this message.");
+
+        sb.append("\n  -");
+        sb.append(SYMLINK_CHAR);
+        sb.append(", --");
+        sb.append(SYMLINK_STRING);
+        sb.append("     Follow symbolic links.");
 
         sb.append("\n  -");
         sb.append(UPDATE_CHAR);

@@ -31,13 +31,14 @@ import com.migueldorta.jabackup.filesystem.DirectoryFS;
 public abstract class Main {
 
     private static String input, output;
-    private static boolean verbose;
+    private static boolean verbose, followSymbolicLinks;
     private static int frequency;
 
     public static void main(String args[]) {
         input = null;
         output = null;
         verbose = false;
+        followSymbolicLinks = false;
 
         int exitCode = ArgumentReader.readArgs(args);
         if (exitCode >= 0) {
@@ -71,12 +72,20 @@ public abstract class Main {
         return 0;
     }
 
+    public static boolean getFollowSymbolicLinks() {
+        return followSymbolicLinks;
+    }
+
     public static String getInput() {
         return input;
     }
 
     public static String getOutput() {
         return output;
+    }
+
+    public static void setFollowSymbolicLinks(boolean b) {
+        followSymbolicLinks = b;
     }
 
     public static void setInput(String s) {
