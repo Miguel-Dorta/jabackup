@@ -35,15 +35,15 @@ public class FileFS extends ObjectFS {
 
     public FileFS(String path) throws IOException, NoSuchAlgorithmException {
         super(path);
-        md5 = getMD5();
+        md5 = getChecksum("MD5", this);
     }
 
     public byte[] getSHA1() throws IOException, NoSuchAlgorithmException {
         return getChecksum("SHA-1", this);
     }
 
-    private byte[] getMD5() throws IOException, NoSuchAlgorithmException {
-        return getChecksum("MD5", this);
+    public byte[] getMD5() {
+        return md5;
     }
 
     private static byte[] getChecksum(String algorithm, File file) throws IOException, NoSuchAlgorithmException {
