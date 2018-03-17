@@ -123,7 +123,9 @@ public abstract class ArgumentReader {
 
     private static int printHelp() {
         String ls = System.lineSeparator();
-        StringBuilder sb = new StringBuilder(":: jabackup help ::");
+        StringBuilder sb = new StringBuilder(2048);
+
+        sb.append(":: jabackup help ::");
         sb.append(ls);
         sb.append("How to use:   java -jar jabackup.jar [args]");
         sb.append(ls);
