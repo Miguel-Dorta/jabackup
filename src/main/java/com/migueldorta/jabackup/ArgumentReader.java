@@ -122,83 +122,111 @@ public abstract class ArgumentReader {
     }
 
     private static int printHelp() {
+        String ls = System.lineSeparator();
         StringBuilder sb = new StringBuilder(":: jabackup help ::");
-        sb.append("\nHow to use:   java -jar jabackup.jar [args]");
-        sb.append("\n\nARGUMENTS:");
+        sb.append(ls);
+        sb.append("How to use:   java -jar jabackup.jar [args]");
+        sb.append(ls);
+        sb.append(ls);
+        sb.append("ARGUMENTS:");
 
-        sb.append("\n  ");
+        sb.append(ls);
+        sb.append("  ");
         sb.append(FREQUENCY);
-        sb.append("<int>    Define the frequency to create full backups. 0 to\n                 disable. 8 as default.");
+        sb.append("<int>    Define the frequency to create full backups. 0 to");
+        sb.append(ls);
+        sb.append("                 disable. 8 as default.");
 
-        sb.append("\n  ");
+        sb.append(ls);
+        sb.append("  ");
         sb.append(INPUT);
         sb.append("<path>      Define the directory to make a backup of.");
 
-        sb.append("\n  ");
+        sb.append(ls);
+        sb.append("  ");
         sb.append(OUTPUT);
         sb.append("<path>      Define the directory to store the backups.");
 
-        sb.append("\n  -");
+        sb.append(ls);
+        sb.append("  -");
         sb.append(FULL_CHAR);
         sb.append(", --");
         sb.append(FULL_STRING);
         sb.append("     Creates a full backup instead of incremental.");
 
-        sb.append("\n  -");
+        sb.append(ls);
+        sb.append("  -");
         sb.append(HELP_CHAR);
         sb.append(", --");
         sb.append(HELP_STRING);
         sb.append("     Shows this message.");
 
-        sb.append("\n  -");
+        sb.append(ls);
+        sb.append("  -");
         sb.append(SYMLINK_CHAR);
         sb.append(", --");
         sb.append(SYMLINK_STRING);
         sb.append("     Follow symbolic links.");
 
-        sb.append("\n  -");
+        sb.append(ls);
+        sb.append("  -");
         sb.append(UPDATE_CHAR);
         sb.append(", --");
         sb.append(UPDATE_STRING);
         sb.append("   Updates jabackup at the latest stable version.");
 
-        sb.append("\n  -");
+        sb.append(ls);
+        sb.append("  -");
         sb.append(VERBOSE_CHAR);
         sb.append(", --");
         sb.append(VERBOSE_STRING);
-        sb.append("  Displays detailled information.");
+        sb.append("  Displays detailed information.");
 
-        sb.append("\n  --");
+        sb.append(ls);
+        sb.append("  --");
         sb.append(VERSION_STRING);
         sb.append("      Displays jabackup version.");
 
-        sb.append("\n\nExample:");
+        sb.append(ls);
+        sb.append(ls);
+        sb.append("Example:");
 
-        sb.append("\n  java -jar jabackup.jar ");
+        sb.append(ls);
+        sb.append("  java -jar jabackup.jar ");
         sb.append(INPUT);
         sb.append("/home/myuser/");
         sb.append(" ");
         sb.append(OUTPUT);
         sb.append("/mnt/backups/jabackup/");
 
-        sb.append("\n  java -jar jabackup.jar --");
+        sb.append(ls);
+        sb.append("  java -jar jabackup.jar --");
         sb.append(UPDATE_STRING);
 
-        sb.append("\n\nNotes:");
+        sb.append(ls);
+        sb.append(ls);
+        sb.append("Notes:");
 
-        sb.append("\n  Arguments like \"--");
+        sb.append(ls);
+        sb.append("  Arguments like \"--");
         sb.append(HELP_STRING);
         sb.append("\", \"--");
         sb.append(UPDATE_STRING);
         sb.append("\" or \"--");
         sb.append(VERSION_STRING);
-        sb.append("\" will stop the\n  execution of the program even if there are other parameters defined.");
+        sb.append("\" will stop the");
+        sb.append(ls);
+        sb.append("  execution of the program even if there are other parameters defined.");
 
-        sb.append("\n\n  The \"");
+        sb.append(ls);
+        sb.append(ls);
+        sb.append("  The \"");
         sb.append(FREQUENCY);
-        sb.append("\" argument is preserved between backups. The previous\n  value will be overwritten when you define it.");
+        sb.append("\" argument is preserved between backups. The previous");
+        sb.append(ls);
+        sb.append("  value will be overwritten when you define it.");
 
-        sb.append("\n");
+        sb.append(ls);
 
         System.out.println(sb);
         return 0;
