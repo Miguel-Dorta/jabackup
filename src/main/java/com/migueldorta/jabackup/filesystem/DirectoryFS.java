@@ -54,9 +54,9 @@ public class DirectoryFS extends ObjectFS {
                         if (e instanceof IOException) {
                             reason = "I/O Error. Do you have access to that file?";
                         } else {
-                            reason = "Unknown. Report this in https://github.com/Miguel-Dorta/jabackup/issues\n" + e.getStackTrace();
+                            reason = "Unknown. Report this in https://github.com/Miguel-Dorta/jabackup/issues" + System.lineSeparator() + e.getStackTrace();
                         }
-                        System.out.println("Error adding " + f + "\nReason: " + reason);
+                        System.out.println("Error adding " + f + System.lineSeparator() + "Reason: " + reason);
                     }
                 }
             }
