@@ -33,12 +33,14 @@ public abstract class ArgumentReader {
             FREQUENCY = "every=",
             FULL_STRING = "full",
             HELP_STRING = "help",
+            HIDDEN_STRING = "hidden",
             SYMLINK_STRING = "link",
             UPDATE_STRING = "update",
             VERBOSE_STRING = "verbose",
             VERSION_STRING = "version";
 
     public static final char
+            HIDDEN_CHAR = 'a',
             FULL_CHAR = 'f',
             HELP_CHAR = 'h',
             SYMLINK_CHAR = 'l',
@@ -58,6 +60,9 @@ public abstract class ArgumentReader {
                                     return Main.createFullBackup();
                                 case HELP_STRING:
                                     return printHelp();
+                                case HIDDEN_STRING:
+                                    Main.setAddHiddenFiles(true);
+                                    break;
                                 case SYMLINK_STRING:
                                     Main.setFollowSymbolicLinks(true);
                                     break;
@@ -74,6 +79,9 @@ public abstract class ArgumentReader {
                         } else if (arg.charAt(1) != 'X') {
                             for (int i = 1; i < arg.length(); i++) {
                                 switch (arg.charAt(i)) {
+                                    case HIDDEN_CHAR:
+                                        Main.setAddHiddenFiles(true);
+                                        break;
                                     case FULL_CHAR:
                                         return Main.createFullBackup();
                                     case HELP_CHAR:
@@ -148,6 +156,13 @@ public abstract class ArgumentReader {
         sb.append("  ");
         sb.append(OUTPUT);
         sb.append("<path>      Define the directory to store the backups.");
+
+        sb.append(ls);
+        sb.append("  -");
+        sb.append(HIDDEN_CHAR);
+        sb.append(", --");
+        sb.append(HIDDEN_STRING);
+        sb.append("   Add the hidden files to the backup.");
 
         sb.append(ls);
         sb.append("  -");

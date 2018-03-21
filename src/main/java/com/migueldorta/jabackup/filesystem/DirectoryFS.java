@@ -24,7 +24,6 @@
 package com.migueldorta.jabackup.filesystem;
 
 import com.migueldorta.jabackup.Main;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,16 +39,20 @@ public class DirectoryFS extends ObjectFS {
 
     private static ObjectFS[] listDirectory(File[] fileArray) {
         ObjectFS[] fsList = new ObjectFS[fileArray.length];
+
         for (int i = 0; i < fileArray.length; i++) {
             File f = fileArray[i];
-            if (!Files.isSymbolicLink(f.toPath()) || Main.getFollowSymbolicLinks()) {
+            if ((!Files.isSymbolicLink(f.toPath()) || Main.getFollowSymbolicLinks()) && (!f.isHidden() || Main.getAddHiddenFiles())) {
+
                 if (f.isDirectory()) {
                     fsList[i] = new DirectoryFS(f.getPath());
+
                 } else if (f.isFile()) {
                     try {
                         fsList[i] = new FileFS(f.getPath());
                     } catch (Exception e) {
                         fsList[i] = null;
+
                         String reason;
                         if (e instanceof IOException) {
                             reason = "I/O Error. Do you have access to that file?";

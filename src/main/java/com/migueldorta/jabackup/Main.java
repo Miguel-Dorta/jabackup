@@ -31,7 +31,7 @@ import com.migueldorta.jabackup.filesystem.DirectoryFS;
 public abstract class Main {
 
     private static String input, output;
-    private static boolean verbose, followSymbolicLinks;
+    private static boolean verbose, followSymbolicLinks, addHiddenFiles;
     private static int frequency;
 
     public static void main(String args[]) {
@@ -39,6 +39,7 @@ public abstract class Main {
         output = null;
         verbose = false;
         followSymbolicLinks = false;
+        addHiddenFiles = false;
 
         int exitCode = ArgumentReader.readArgs(args);
         if (exitCode >= 0) {
@@ -72,6 +73,10 @@ public abstract class Main {
         return 0;
     }
 
+    public static boolean getAddHiddenFiles() {
+        return addHiddenFiles;
+    }
+
     public static boolean getFollowSymbolicLinks() {
         return followSymbolicLinks;
     }
@@ -82,6 +87,10 @@ public abstract class Main {
 
     public static String getOutput() {
         return output;
+    }
+
+    public static void setAddHiddenFiles(boolean b) {
+        addHiddenFiles = b;
     }
 
     public static void setFollowSymbolicLinks(boolean b) {
