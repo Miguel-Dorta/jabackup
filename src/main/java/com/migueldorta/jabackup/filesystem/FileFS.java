@@ -33,21 +33,29 @@ public class FileFS extends ObjectFS {
 
     byte[] md5;
 
-    public FileFS(String path) throws IOException, NoSuchAlgorithmException {
+    public FileFS(String path) throws IOException {
         super(path);
-        md5 = getChecksum("MD5", this);
+        md5 = null;
     }
 
-    public byte[] getSHA1() throws IOException, NoSuchAlgorithmException {
+    public byte[] getSHA1() throws IOException {
         return getChecksum("SHA-1", this);
     }
 
-    public byte[] getMD5() {
+    public byte[] getMD5() throws IOException {
+        if (md5 == null) {
+            md5 = getChecksum("MD5", this);
+        }
         return md5;
     }
 
-    private static byte[] getChecksum(String algorithm, File file) throws IOException, NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance(algorithm);
+    private static byte[] getChecksum(String algorithm, File file) throws IOException {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance(algorithm);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error in code. Please, report \"NoSuchAlgorithmException with SHA-1\" in:" + System.lineSeparator() + "https://github.com/Miguel-Dorta/jabackup/issues");
+        }
         FileInputStream fis = new FileInputStream(file);
         byte[] byteArray = new byte[1024];
 
