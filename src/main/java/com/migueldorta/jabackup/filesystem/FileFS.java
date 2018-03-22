@@ -23,6 +23,7 @@
  */
 package com.migueldorta.jabackup.filesystem;
 
+import com.migueldorta.jabackup.exceptions.CodeErrorException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,28 +34,28 @@ public class FileFS extends ObjectFS {
 
     byte[] md5;
 
-    public FileFS(String path) throws IOException {
+    public FileFS(String path) {
         super(path);
         md5 = null;
     }
 
-    public byte[] getSHA1() throws IOException {
+    public byte[] getSHA1() throws CodeErrorException, IOException {
         return getChecksum("SHA-1", this);
     }
 
-    public byte[] getMD5() throws IOException {
+    public byte[] getMD5() throws CodeErrorException, IOException {
         if (md5 == null) {
             md5 = getChecksum("MD5", this);
         }
         return md5;
     }
 
-    private static byte[] getChecksum(String algorithm, File file) throws IOException {
+    private static byte[] getChecksum(String algorithm, File file) throws CodeErrorException, IOException {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance(algorithm);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error in code. Please, report \"NoSuchAlgorithmException with SHA-1\" in:" + System.lineSeparator() + "https://github.com/Miguel-Dorta/jabackup/issues");
+            throw new CodeErrorException("NoSuchAlgorithmException with " + algorithm);
         }
         FileInputStream fis = new FileInputStream(file);
         byte[] byteArray = new byte[1024];

@@ -21,35 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.migueldorta.jabackup.filesystem;
+package com.migueldorta.jabackup.exceptions;
 
-import com.migueldorta.jabackup.Main;
-import java.io.File;
-import java.nio.file.Files;
+public class CodeErrorException extends Exception {
 
-public class DirectoryFS extends ObjectFS {
-
-    ObjectFS[] list;
-
-    public DirectoryFS(String path) {
-        super(path);
-        list = listDirectory(super.listFiles());
+    public CodeErrorException(String arg) {
+        super("Error in code: \"" + arg + "\"." + System.lineSeparator() + "Please, report it in https://github.com/Miguel-Dorta/jabackup/issues");
     }
 
-    private static ObjectFS[] listDirectory(File[] fileArray) {
-        ObjectFS[] fsList = new ObjectFS[fileArray.length];
-
-        for (int i = 0; i < fileArray.length; i++) {
-            File f = fileArray[i];
-            if ((!Files.isSymbolicLink(f.toPath()) || Main.getFollowSymbolicLinks()) && (!f.isHidden() || Main.getAddHiddenFiles())) {
-
-                if (f.isDirectory()) {
-                    fsList[i] = new DirectoryFS(f.getPath());
-                } else if (f.isFile()) {
-                    fsList[i] = new FileFS(f.getPath());
-                }
-            }
-        }
-        return fsList;
-    }
 }
