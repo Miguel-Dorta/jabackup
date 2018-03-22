@@ -30,6 +30,12 @@ hs_err_pid*
 nb-configuration.xml
 nbactions.xml
 
+# Visual Studio Code files
+/.vscode
+/.settings
+.classpath
+.project
+
 # General backup/swap files
 *.so
 *.log
