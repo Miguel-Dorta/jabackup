@@ -24,6 +24,7 @@
 package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.filesystem.DirectoryFS;
+import java.io.File;
 
 /**
  * @author Miguel Dorta
@@ -45,6 +46,7 @@ public abstract class Main {
         if (exitCode >= 0) {
             System.exit(exitCode);
         }
+        OutputSettings os = new OutputSettings(output);
         createOriginTree();
     }
 
