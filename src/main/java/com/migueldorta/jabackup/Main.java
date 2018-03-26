@@ -24,7 +24,6 @@
 package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.filesystem.DirectoryFS;
-import java.io.File;
 
 /**
  * @author Miguel Dorta
@@ -50,10 +49,6 @@ public abstract class Main {
         createOriginTree();
     }
 
-    public static boolean getVerbose() {
-        return verbose;
-    }
-
     private static void createOriginTree() {
         System.out.println(":: Saving origin file tree...");
         DirectoryFS origin = new DirectoryFS(input);
@@ -61,11 +56,6 @@ public abstract class Main {
     }
 
     public static int createFullBackup() {
-        System.out.println("Not supported yet");
-        return 0;
-    }
-
-    public static int printVersion() {
         System.out.println("Not supported yet");
         return 0;
     }
@@ -89,6 +79,10 @@ public abstract class Main {
 
     public static String getOutput() {
         return output;
+    }
+
+    public static boolean getVerbose() {
+        return verbose;
     }
 
     public static void setAddHiddenFiles(boolean b) {

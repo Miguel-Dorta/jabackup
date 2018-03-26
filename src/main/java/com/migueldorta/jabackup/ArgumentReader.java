@@ -27,8 +27,9 @@ import com.migueldorta.jabackup.exceptions.InvalidArgumentException;
 
 public abstract class ArgumentReader {
 
-    public static final String
-            INPUT = "ib=",
+    public static final String LS = System.lineSeparator();
+
+    public static final String INPUT = "ib=",
             OUTPUT = "ob=",
             FREQUENCY = "every=",
             FULL_STRING = "full",
@@ -39,8 +40,7 @@ public abstract class ArgumentReader {
             VERBOSE_STRING = "verbose",
             VERSION_STRING = "version";
 
-    public static final char
-            HIDDEN_CHAR = 'a',
+    public static final char HIDDEN_CHAR = 'a',
             FULL_CHAR = 'f',
             HELP_CHAR = 'h',
             SYMLINK_CHAR = 'l',
@@ -72,7 +72,7 @@ public abstract class ArgumentReader {
                                     Main.setVerbose(true);
                                     break;
                                 case VERSION_STRING:
-                                    return Main.printVersion();
+                                    return printVersion();
                                 default:
                                     throw new InvalidArgumentException(arg);
                             }
@@ -130,85 +130,84 @@ public abstract class ArgumentReader {
     }
 
     private static int printHelp() {
-        String ls = System.lineSeparator();
         StringBuilder sb = new StringBuilder(2048);
 
         sb.append(":: jabackup help ::");
-        sb.append(ls);
+        sb.append(LS);
         sb.append("How to use:   java -jar jabackup.jar [args]");
-        sb.append(ls);
-        sb.append(ls);
+        sb.append(LS);
+        sb.append(LS);
         sb.append("ARGUMENTS:");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  ");
         sb.append(FREQUENCY);
         sb.append("<int>    Define the frequency to create full backups. 0 to");
-        sb.append(ls);
+        sb.append(LS);
         sb.append("                 disable. 8 as default.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  ");
         sb.append(INPUT);
         sb.append("<path>      Define the directory to make a backup of.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  ");
         sb.append(OUTPUT);
         sb.append("<path>      Define the directory to store the backups.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(HIDDEN_CHAR);
         sb.append(", --");
         sb.append(HIDDEN_STRING);
         sb.append("   Add the hidden files to the backup.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(FULL_CHAR);
         sb.append(", --");
         sb.append(FULL_STRING);
         sb.append("     Creates a full backup instead of incremental.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(HELP_CHAR);
         sb.append(", --");
         sb.append(HELP_STRING);
         sb.append("     Shows this message.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(SYMLINK_CHAR);
         sb.append(", --");
         sb.append(SYMLINK_STRING);
         sb.append("     Follow symbolic links.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(UPDATE_CHAR);
         sb.append(", --");
         sb.append(UPDATE_STRING);
         sb.append("   Updates jabackup at the latest stable version.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  -");
         sb.append(VERBOSE_CHAR);
         sb.append(", --");
         sb.append(VERBOSE_STRING);
         sb.append("  Displays detailed information.");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  --");
         sb.append(VERSION_STRING);
         sb.append("      Displays jabackup version.");
 
-        sb.append(ls);
-        sb.append(ls);
+        sb.append(LS);
+        sb.append(LS);
         sb.append("Example:");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  java -jar jabackup.jar ");
         sb.append(INPUT);
         sb.append("/home/myuser/");
@@ -216,15 +215,15 @@ public abstract class ArgumentReader {
         sb.append(OUTPUT);
         sb.append("/mnt/backups/jabackup/");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  java -jar jabackup.jar --");
         sb.append(UPDATE_STRING);
 
-        sb.append(ls);
-        sb.append(ls);
+        sb.append(LS);
+        sb.append(LS);
         sb.append("Notes:");
 
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  Arguments like \"--");
         sb.append(HELP_STRING);
         sb.append("\", \"--");
@@ -232,18 +231,36 @@ public abstract class ArgumentReader {
         sb.append("\" or \"--");
         sb.append(VERSION_STRING);
         sb.append("\" will stop the");
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  execution of the program even if there are other parameters defined.");
 
-        sb.append(ls);
-        sb.append(ls);
+        sb.append(LS);
+        sb.append(LS);
         sb.append("  The \"");
         sb.append(FREQUENCY);
         sb.append("\" argument is preserved between backups. The previous");
-        sb.append(ls);
+        sb.append(LS);
         sb.append("  value will be overwritten when you define it.");
 
-        sb.append(ls);
+        sb.append(LS);
+
+        System.out.println(sb);
+        return 0;
+    }
+
+    private static int printVersion() {
+        StringBuilder sb = new StringBuilder(200);
+
+        sb.append("jabackup ");
+        sb.append(Main.class.getPackage().getImplementationVersion());
+        sb.append(" - Copyright (c) 2018 Miguel Dorta.");
+        sb.append(LS);
+        sb.append(LS);
+
+        sb.append("This work is licensed under the terms of the MIT license.");
+        sb.append(LS);
+        sb.append("For a copy, see https://opensource.org/licenses/MIT");
+        sb.append(LS);
 
         System.out.println(sb);
         return 0;
