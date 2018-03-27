@@ -34,12 +34,13 @@ import java.util.regex.Pattern;
 
 public class SimpleINI {
 
-    public static final Pattern KEY_VALUE_PATTERN = Pattern.compile("\\s*([^=]*)=(.*)\\s");
+    public static final Pattern KEY_VALUE_PATTERN = Pattern.compile("\\s*([^=]+)=(.+)\\s*");
     private HashMap<String, String> hm;
     private File f;
 
     public SimpleINI(File f) throws FileNotFoundException, IOException {
         this.f = f;
+        hm = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String s;
@@ -49,6 +50,7 @@ public class SimpleINI {
                 if (m.matches()) {
                     hm.put(m.group(1).trim(), m.group(2).trim());
                 }
+                s = br.readLine();
             }
         }
     }
