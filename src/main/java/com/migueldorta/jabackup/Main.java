@@ -24,6 +24,8 @@
 package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.filesystem.DirectoryFS;
+import com.migueldorta.jabackup.utils.Date;
+import java.io.File;
 
 /**
  * @author Miguel Dorta
@@ -45,14 +47,24 @@ public abstract class Main {
         if (exitCode >= 0) {
             System.exit(exitCode);
         }
-        OutputSettings os = new OutputSettings(output);
-        createOriginTree();
-    }
 
-    private static void createOriginTree() {
+        OutputSettings os = new OutputSettings(output);
+
         System.out.println(":: Saving origin file tree...");
         DirectoryFS origin = new DirectoryFS(input);
         System.out.println("Done!");
+        File destiny = new File(output, new Date().toString() + "_jabackup");
+
+        if (os.isEmpty() || os.isTheNextBackupFull()) {
+            //Copy the origin tree to destiny
+            //Generate BackupSettings.ini in destiny
+        } else {
+            //Obtain combined trees from previous backup
+            //Compare origin with combined previous trees
+            //Copy the result to destiny
+            //Create a changelog in destiny
+            //Create a BackupSettings.ini in destiny
+        }
     }
 
     public static int createFullBackup() {

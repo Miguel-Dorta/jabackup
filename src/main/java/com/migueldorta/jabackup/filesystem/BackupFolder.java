@@ -24,7 +24,7 @@
 package com.migueldorta.jabackup.filesystem;
 
 import com.migueldorta.jabackup.utils.Date;
-import com.migueldorta.jabackup.utils.SimpleINI;
+import com.migueldorta.jabackup.utils.SimpleIniReader;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +35,7 @@ public class BackupFolder {
     private File f;
     private Matcher m;
     private Date d;
-    private SimpleINI settings;
+    private SimpleIniReader settings;
 
     public BackupFolder(File f) {
         this.f = f;
@@ -49,7 +49,7 @@ public class BackupFolder {
                         Byte.parseByte(m.group(4)),
                         Byte.parseByte(m.group(5))
                 );
-                settings = new SimpleINI(new File(f, "BackupSettings.ini"));
+                settings = new SimpleIniReader(new File(f, "BackupSettings.ini"));
             } catch (Exception e) {
                 this.f = null;
             }

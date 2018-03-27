@@ -23,6 +23,8 @@
  */
 package com.migueldorta.jabackup.utils;
 
+import java.util.Calendar;
+
 public class Date implements Comparable {
 
     private long year;
@@ -34,6 +36,20 @@ public class Date implements Comparable {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+    }
+
+    public Date() {
+        Calendar c = Calendar.getInstance();
+        this.year = c.get(Calendar.YEAR);
+        this.month = (byte) (c.get(Calendar.MONTH) + 1);
+        this.day = (byte) c.get(Calendar.DAY_OF_MONTH);
+        this.hour = (byte) c.get(Calendar.HOUR_OF_DAY);
+        this.minute = (byte) c.get(Calendar.MINUTE);
+    }
+
+    @Override
+    public String toString() {
+        return year + "-" + month + "-" + day + "_" + hour + "-" + minute;
     }
 
     @Override

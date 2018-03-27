@@ -39,6 +39,10 @@ public class OutputSettings {
         System.out.println("Done!");
     }
 
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+
     public boolean isTheNextBackupFull() {
         int frequency = Integer.MAX_VALUE, backupsSinceLastFull = 0;
         for (BackupFolder bf : list) {

@@ -23,17 +23,36 @@
  */
 package com.migueldorta.jabackup.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.HashMap;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public abstract class SimpleINI {
+public class SimpleIniReader extends SimpleINI {
 
-    protected HashMap<String, String> hm;
-    protected File f;
+    public static final Pattern KEY_VALUE_PATTERN = Pattern.compile("\\s*([^=]+)=(.+)\\s*");
 
-    public SimpleINI(File f) {
-        this.f = f;
-        hm = new HashMap<>();
+    public SimpleIniReader(File f) throws FileNotFoundException, IOException {
+        super(f);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            String s;
+            s = br.readLine();
+            while (s != null) {
+                Matcher m = KEY_VALUE_PATTERN.matcher(s);
+                if (m.matches()) {
+                    hm.put(m.group(1).trim(), m.group(2).trim());
+                }
+                s = br.readLine();
+            }
+        }
+    }
+
+    public String getValue(String key) {
+        return hm.get(key);
     }
 
 }

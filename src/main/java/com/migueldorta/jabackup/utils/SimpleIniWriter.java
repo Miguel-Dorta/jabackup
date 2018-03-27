@@ -24,16 +24,31 @@
 package com.migueldorta.jabackup.utils;
 
 import java.io.File;
-import java.util.HashMap;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
-public abstract class SimpleINI {
+public class SimpleIniWriter extends SimpleINI {
 
-    protected HashMap<String, String> hm;
-    protected File f;
+    public SimpleIniWriter(File f) {
+        super(f);
+    }
 
-    public SimpleINI(File f) {
-        this.f = f;
-        hm = new HashMap<>();
+    public void add(String key, String value) {
+        hm.put(key, value);
+    }
+
+    public void write() throws IOException {
+        try (FileWriter fw = new FileWriter(f)) {
+            StringBuilder sb = new StringBuilder(200);
+            hm.forEach((String key, String value) -> {
+                sb.append(key);
+                sb.append("=");
+                sb.append(value);
+                sb.append(System.lineSeparator());
+            });
+            fw.write(sb.toString());
+        }
     }
 
 }
