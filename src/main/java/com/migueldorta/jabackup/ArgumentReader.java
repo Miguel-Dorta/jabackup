@@ -259,9 +259,14 @@ public abstract class ArgumentReader {
 
         sb.append("This work is licensed under the terms of the MIT license.");
         sb.append(LS);
-        sb.append("For a copy, see https://opensource.org/licenses/MIT");
-        sb.append(LS);
+        sb.append("For a copy, see <https://opensource.org/licenses/MIT>");
+        sb.append(LS).append(LS);
 
+        sb.append("jabackup is made possible by other open source software.")
+                .append(LS)
+                .append("Visit <https://git.io/jabackup_credits> to learn more.")
+                .append(LS);
+        
         System.out.println(sb);
         return 0;
     }
