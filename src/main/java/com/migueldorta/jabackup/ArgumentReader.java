@@ -24,6 +24,7 @@
 package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.exceptions.InvalidArgumentException;
+import com.migueldorta.jabackup.utils.SweetStringBuilder;
 
 public abstract class ArgumentReader {
 
@@ -130,144 +131,53 @@ public abstract class ArgumentReader {
     }
 
     private static int printHelp() {
-        StringBuilder sb = new StringBuilder(2048);
+        SweetStringBuilder ssb = new SweetStringBuilder(2048);
 
-        sb.append(":: jabackup help ::");
-        sb.append(LS);
-        sb.append("How to use:   java -jar jabackup.jar [args]");
-        sb.append(LS);
-        sb.append(LS);
-        sb.append("ARGUMENTS:");
+        ssb.append(
+                ":: jabackup help ::", LS,
+                "How to use:   java -jar jabackup.jar [args]", LS,
+                LS,
+                "ARGUMENTS:", LS,
+                "  ", FREQUENCY, "<int>    Define the frequency to create full backups. 0 to", LS,
+                "                 disable. 8 as default.", LS,
+                "  ", INPUT, "<path>      Define the directory to make a backup of.", LS,
+                "  ", OUTPUT, "<path>      Define the directory to store the backups.", LS,
+                "  -", HIDDEN_CHAR, ", --", HIDDEN_STRING, "   Add the hidden files to the backup.", LS,
+                "  -", FULL_CHAR, ", --", FULL_STRING, "     Creates a full backup instead of incremental.", LS,
+                "  -", HELP_CHAR, ", --", HELP_STRING, "     Shows this message.", LS,
+                "  -", SYMLINK_CHAR, ", --", SYMLINK_STRING, "     Follow symbolic links.", LS,
+                "  -", UPDATE_CHAR, ", --", UPDATE_STRING, "   Updates jabackup at the latest stable version.", LS,
+                "  -", VERBOSE_CHAR, ", --", VERBOSE_STRING, "  Displays detailed information.", LS,
+                "  --", VERSION_STRING, "      Displays jabackup version.", LS,
+                LS,
+                "Example:", LS,
+                "  java -jar jabackup.jar ", INPUT, "/home/myuser/", " ", OUTPUT, "/mnt/backups/jabackup/", LS,
+                "  java -jar jabackup.jar --", UPDATE_STRING, LS,
+                LS,
+                "Notes:", LS,
+                "  Arguments like \"--", HELP_STRING, "\", \"--", UPDATE_STRING, "\" or \"--", VERSION_STRING, "\" will stop the", LS,
+                "  execution of the program even if there are other parameters defined.", LS,
+                LS,
+                "  The \"", FREQUENCY, "\" argument is preserved between backups. The previous", LS,
+                "  value will be overwritten when you define it.", LS);
 
-        sb.append(LS);
-        sb.append("  ");
-        sb.append(FREQUENCY);
-        sb.append("<int>    Define the frequency to create full backups. 0 to");
-        sb.append(LS);
-        sb.append("                 disable. 8 as default.");
-
-        sb.append(LS);
-        sb.append("  ");
-        sb.append(INPUT);
-        sb.append("<path>      Define the directory to make a backup of.");
-
-        sb.append(LS);
-        sb.append("  ");
-        sb.append(OUTPUT);
-        sb.append("<path>      Define the directory to store the backups.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(HIDDEN_CHAR);
-        sb.append(", --");
-        sb.append(HIDDEN_STRING);
-        sb.append("   Add the hidden files to the backup.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(FULL_CHAR);
-        sb.append(", --");
-        sb.append(FULL_STRING);
-        sb.append("     Creates a full backup instead of incremental.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(HELP_CHAR);
-        sb.append(", --");
-        sb.append(HELP_STRING);
-        sb.append("     Shows this message.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(SYMLINK_CHAR);
-        sb.append(", --");
-        sb.append(SYMLINK_STRING);
-        sb.append("     Follow symbolic links.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(UPDATE_CHAR);
-        sb.append(", --");
-        sb.append(UPDATE_STRING);
-        sb.append("   Updates jabackup at the latest stable version.");
-
-        sb.append(LS);
-        sb.append("  -");
-        sb.append(VERBOSE_CHAR);
-        sb.append(", --");
-        sb.append(VERBOSE_STRING);
-        sb.append("  Displays detailed information.");
-
-        sb.append(LS);
-        sb.append("  --");
-        sb.append(VERSION_STRING);
-        sb.append("      Displays jabackup version.");
-
-        sb.append(LS);
-        sb.append(LS);
-        sb.append("Example:");
-
-        sb.append(LS);
-        sb.append("  java -jar jabackup.jar ");
-        sb.append(INPUT);
-        sb.append("/home/myuser/");
-        sb.append(" ");
-        sb.append(OUTPUT);
-        sb.append("/mnt/backups/jabackup/");
-
-        sb.append(LS);
-        sb.append("  java -jar jabackup.jar --");
-        sb.append(UPDATE_STRING);
-
-        sb.append(LS);
-        sb.append(LS);
-        sb.append("Notes:");
-
-        sb.append(LS);
-        sb.append("  Arguments like \"--");
-        sb.append(HELP_STRING);
-        sb.append("\", \"--");
-        sb.append(UPDATE_STRING);
-        sb.append("\" or \"--");
-        sb.append(VERSION_STRING);
-        sb.append("\" will stop the");
-        sb.append(LS);
-        sb.append("  execution of the program even if there are other parameters defined.");
-
-        sb.append(LS);
-        sb.append(LS);
-        sb.append("  The \"");
-        sb.append(FREQUENCY);
-        sb.append("\" argument is preserved between backups. The previous");
-        sb.append(LS);
-        sb.append("  value will be overwritten when you define it.");
-
-        sb.append(LS);
-
-        System.out.println(sb);
+        System.out.println(ssb);
         return 0;
     }
 
     private static int printVersion() {
-        StringBuilder sb = new StringBuilder(200);
+        SweetStringBuilder ssb = new SweetStringBuilder(300);
 
-        sb.append("jabackup ");
-        sb.append(Main.class.getPackage().getImplementationVersion());
-        sb.append(" - Copyright (c) 2018 Miguel Dorta.");
-        sb.append(LS);
-        sb.append(LS);
+        ssb.append(
+                "jabackup ", Main.class.getPackage().getImplementationVersion(), " - Copyright (c) 2018 Miguel Dorta.", LS,
+                LS,
+                "This work is licensed under the terms of the MIT license.", LS,
+                "For a copy, see <https://opensource.org/licenses/MIT>", LS,
+                LS,
+                "jabackup is made possible by other open source software.", LS,
+                "Visit <https://git.io/jabackup_credits> to learn more.", LS);
 
-        sb.append("This work is licensed under the terms of the MIT license.");
-        sb.append(LS);
-        sb.append("For a copy, see <https://opensource.org/licenses/MIT>");
-        sb.append(LS).append(LS);
-
-        sb.append("jabackup is made possible by other open source software.")
-                .append(LS)
-                .append("Visit <https://git.io/jabackup_credits> to learn more.")
-                .append(LS);
-        
-        System.out.println(sb);
+        System.out.println(ssb);
         return 0;
     }
 

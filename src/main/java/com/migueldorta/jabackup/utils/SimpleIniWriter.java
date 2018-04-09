@@ -24,7 +24,6 @@
 package com.migueldorta.jabackup.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -40,14 +39,11 @@ public class SimpleIniWriter extends SimpleINI {
 
     public void write() throws IOException {
         try (FileWriter fw = new FileWriter(f)) {
-            StringBuilder sb = new StringBuilder(200);
+            SweetStringBuilder ssb = new SweetStringBuilder(200);
             hm.forEach((String key, String value) -> {
-                sb.append(key);
-                sb.append("=");
-                sb.append(value);
-                sb.append(System.lineSeparator());
+                ssb.append(key, "=", value, System.lineSeparator());
             });
-            fw.write(sb.toString());
+            fw.write(ssb.toString());
         }
     }
 
