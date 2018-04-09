@@ -37,14 +37,18 @@ public class SimpleIniWriter extends SimpleINI {
         hm.put(key, value);
     }
 
-    public void write() throws IOException {
+    public void write(int size) throws IOException {
         try (FileWriter fw = new FileWriter(f)) {
-            SweetStringBuilder ssb = new SweetStringBuilder(200);
+            SweetStringBuilder ssb = new SweetStringBuilder(size);
             hm.forEach((String key, String value) -> {
                 ssb.append(key, "=", value, System.lineSeparator());
             });
             fw.write(ssb.toString());
         }
+    }
+
+    public void write() throws IOException {
+        write(200);
     }
 
 }
