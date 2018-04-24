@@ -30,4 +30,8 @@ public class RootNode extends AbstractDirectoryNode {
     public RootNode(File f) {
         super(f);
     }
+
+    public RootNode(String s) {
+        this(new File(s));
+    }
 }

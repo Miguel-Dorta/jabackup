@@ -34,7 +34,7 @@ public abstract class AbstractNode {
     public AbstractNode(File f) {
         this.f = f;
         if (VERBOSE) {
-            System.out.println("[ADD] " + f);
+            System.out.println("[Adding] " + f);
         }
     }
 

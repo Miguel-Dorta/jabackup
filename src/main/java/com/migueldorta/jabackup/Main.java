@@ -23,7 +23,7 @@
  */
 package com.migueldorta.jabackup;
 
-import com.migueldorta.jabackup.filesystem.DirectoryFS;
+import com.migueldorta.jabackup.filetree.RootNode;
 import com.migueldorta.jabackup.utils.Date;
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public abstract class Main {
         OutputSettings os = new OutputSettings(output);
 
         System.out.println(":: Saving origin file tree...");
-        DirectoryFS origin = new DirectoryFS(input);
+        RootNode origin = new RootNode(input);
         System.out.println("Done!");
         File destiny = new File(output, new Date().toString() + "_jabackup");
 
