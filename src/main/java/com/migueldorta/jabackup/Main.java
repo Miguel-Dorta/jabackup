@@ -26,6 +26,7 @@ package com.migueldorta.jabackup;
 import com.migueldorta.jabackup.filesystem.DirectoryFS;
 import com.migueldorta.jabackup.utils.Date;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * @author Miguel Dorta
@@ -35,6 +36,7 @@ public abstract class Main {
     private static String input, output;
     private static boolean verbose, followSymbolicLinks, addHiddenFiles;
     private static int frequency;
+    private static ArrayList<String> errorLog;
 
     public static void main(String args[]) {
         input = null;
@@ -42,6 +44,7 @@ public abstract class Main {
         verbose = false;
         followSymbolicLinks = false;
         addHiddenFiles = false;
+        errorLog = new ArrayList<>();
 
         int exitCode = ArgumentReader.readArgs(args);
         if (exitCode >= 0) {
@@ -75,6 +78,10 @@ public abstract class Main {
     public static int updateJabackup() {
         System.out.println("Not supported yet");
         return 0;
+    }
+
+    public static void addError(String s) {
+        errorLog.add(s);
     }
 
     public static boolean getAddHiddenFiles() {

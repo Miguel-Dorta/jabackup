@@ -23,10 +23,10 @@
  */
 package com.migueldorta.jabackup.filetree;
 
+import com.migueldorta.jabackup.Main;
 import com.migueldorta.jabackup.exceptions.CodeErrorException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -67,18 +67,16 @@ public class FileNode extends AbstractNode implements Child {
                 md.update(byteArray, 0, bytesCount);
             }
             return md.digest();
+        } catch (SecurityException | IOException ex) {
+            Main.addError("Error while reading " + file + ": " + ex.getClass().getCanonicalName());
+            throw ex;
+        } catch (CodeErrorException cee) {
+            Main.addError(cee.getMessage());
+            throw cee;
         } catch (Exception e) {
-            if (e instanceof FileNotFoundException) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            } else if (e instanceof SecurityException) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            } else if (e instanceof IOException) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            } else if (e instanceof CodeErrorException) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-            throw (Exception) e;
+            CodeErrorException ce = new CodeErrorException("Uncaught exception in FileNode.getChecksum: " + e.getClass().getCanonicalName());
+            Main.addError(ce.getMessage());
+            throw ce;
         }
     }
-
 }
