@@ -23,7 +23,6 @@
  */
 package com.migueldorta.jabackup;
 
-import com.migueldorta.jabackup.filesystem.BackupFolder;
 import java.io.File;
 import java.util.ArrayList;
 

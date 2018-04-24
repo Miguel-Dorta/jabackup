@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.migueldorta.jabackup.filesystem;
+package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.utils.Date;
 import com.migueldorta.jabackup.utils.SimpleIniReader;
