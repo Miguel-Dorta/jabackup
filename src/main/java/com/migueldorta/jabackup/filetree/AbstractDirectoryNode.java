@@ -55,9 +55,8 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         initializeChilds();
     }
 
-    protected void initializeChilds() {  //CHANGE THIS!!!!!!!!!!
-        children.stream().filter((an) -> (an instanceof AbstractDirectoryNode)).forEachOrdered((an)
-                -> ((AbstractDirectoryNode) an).initialize());
+    protected void initializeChilds() {
+        children.forEach((child) -> child.initialize());
     }
 
     public void addEntry(FileNode fn, String newPath) {
@@ -69,7 +68,7 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
                 break;
             }
         }
-        if (!resultFound) {
+        if (!resultFound) { //CHANGE THIS!!!!!
             String[] newPathArray = newPath.split(File.separator);
             int nameIndex = (int) getRelativePath().codePoints().filter(ch -> ch == File.separatorChar).count();
             DirectoryNode subDirectory = new DirectoryNode(new File(f, newPathArray[nameIndex]), this);

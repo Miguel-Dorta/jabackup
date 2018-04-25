@@ -36,7 +36,7 @@ public class DirectoryNode extends AbstractDirectoryNode implements Child {
 
     @Override
     public String getRelativePath() {
-        return father.getRelativePath() + f.getName() + "/"; //CHANGE THIS!!!!!!
+        return father.getRelativePath() + f.getName() + File.separator;
     }
 
     @Override
