@@ -43,5 +43,4 @@ public abstract class AbstractNode {
     public abstract RootNode getRoot();
 
     public abstract void initialize();
-
 }

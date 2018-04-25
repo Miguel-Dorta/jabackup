@@ -46,7 +46,7 @@ public class RootNode extends AbstractDirectoryNode {
 
     @Override
     public String getRelativePath() {
-        return "./";
+        return "./"; //CHANGE THIS!!!!!
     }
 
     protected void recordEntry(AbstractNode an) {

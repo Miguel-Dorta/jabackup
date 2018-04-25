@@ -55,9 +55,27 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         initializeChilds();
     }
 
-    protected void initializeChilds() {
+    protected void initializeChilds() {  //CHANGE THIS!!!!!!!!!!
         children.stream().filter((an) -> (an instanceof AbstractDirectoryNode)).forEachOrdered((an)
                 -> ((AbstractDirectoryNode) an).initialize());
+    }
+
+    public void addEntry(FileNode fn, String newPath) {
+        boolean resultFound = false;
+        for (AbstractNode child : children) {
+            if (child instanceof DirectoryNode && newPath.startsWith(child.getRelativePath())) {
+                ((DirectoryNode) child).addEntry(fn, newPath);
+                resultFound = true;
+                break;
+            }
+        }
+        if (!resultFound) {
+            String[] newPathArray = newPath.split(File.separator);
+            int nameIndex = (int) getRelativePath().codePoints().filter(ch -> ch == File.separatorChar).count();
+            DirectoryNode subDirectory = new DirectoryNode(new File(f, newPathArray[nameIndex]), this);
+            children.add(subDirectory);
+            subDirectory.addEntry(fn, newPath);
+        }
     }
 
 }
