@@ -36,12 +36,13 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
 
     public AbstractDirectoryNode(File f) {
         super(f);
+        children = new ArrayList<>();
     }
 
     @Override
     public void initialize() {
         File[] fa = f.listFiles();
-        children = new ArrayList<>(fa.length);
+        children.ensureCapacity(fa.length);
 
         for (File child : fa) {
             if ((!Files.isSymbolicLink(child.toPath()) || FOLLOW_SLINKS) && (!child.isHidden() || ADD_HIDDEN)) {
@@ -68,12 +69,17 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
                 break;
             }
         }
-        if (!resultFound) { //CHANGE THIS!!!!!
+        if (!resultFound) {
             String[] newPathArray = newPath.split(File.separator);
             int nameIndex = (int) getRelativePath().codePoints().filter(ch -> ch == File.separatorChar).count();
-            DirectoryNode subDirectory = new DirectoryNode(new File(f, newPathArray[nameIndex]), this);
-            children.add(subDirectory);
-            subDirectory.addEntry(fn, newPath);
+            if (newPathArray.length == nameIndex) {
+                fn.setFather(this);
+                children.add(fn);
+            } else {
+                DirectoryNode subDirectory = new DirectoryNode(new File(f, newPathArray[nameIndex]), this);
+                children.add(subDirectory);
+                subDirectory.addEntry(fn, newPath);
+            }
         }
     }
 

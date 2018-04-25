@@ -94,4 +94,8 @@ public class FileNode extends AbstractNode implements Child {
             throw ce;
         }
     }
+
+    public void setFather(AbstractDirectoryNode father) {
+        this.father = father;
+    }
 }
