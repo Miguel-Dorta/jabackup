@@ -28,6 +28,8 @@ import com.migueldorta.jabackup.exceptions.CodeErrorException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -39,6 +41,19 @@ public class FileNode extends AbstractNode implements Child {
     public FileNode(File f, AbstractDirectoryNode father) {
         super(f);
         this.father = father;
+    }
+
+    @Override
+    public void create() {
+        try {
+            File newF = new File(getRoot().f, getRelativePath());
+            if (VERBOSE) {
+                System.out.println("[Copying] " + f + " to " + newF);
+            }
+            Files.copy(f.toPath(), newF.toPath(), StandardCopyOption.COPY_ATTRIBUTES);
+        } catch (IOException ex) {
+            System.out.println("[WARNING] Error while copying " + f);
+        }
     }
 
     @Override

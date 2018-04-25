@@ -38,9 +38,15 @@ public abstract class AbstractNode {
         }
     }
 
+    public void setFile(File f) {
+        this.f = f;
+    }
+
     public abstract String getRelativePath();
 
     public abstract RootNode getRoot();
 
     public abstract void initialize();
+
+    public abstract void create();
 }

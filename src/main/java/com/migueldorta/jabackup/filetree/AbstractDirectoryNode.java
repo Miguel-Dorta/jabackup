@@ -60,6 +60,16 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         children.forEach((child) -> child.initialize());
     }
 
+    @Override
+    public void create() {
+        File newF = new File(getRoot().f, getRelativePath());
+        if (VERBOSE) {
+            System.out.println("[Mkdir] " + newF);
+        }
+        newF.mkdir();
+        children.forEach((child) -> child.create());
+    }
+
     public void addEntry(FileNode fn, String newPath) {
         boolean resultFound = false;
         for (AbstractNode child : children) {

@@ -60,7 +60,9 @@ public abstract class Main {
         File destiny = new File(output, new Date().toString() + "_jabackup");
 
         if (os.isEmpty() || os.isTheNextBackupFull()) {
-            //Copy the origin tree to destiny
+            origin.setFile(destiny);
+            System.out.println(":: Copying files to new location");
+            origin.create();
             //Generate BackupSettings.ini in destiny
         } else {
             //Obtain combined trees from previous backup
