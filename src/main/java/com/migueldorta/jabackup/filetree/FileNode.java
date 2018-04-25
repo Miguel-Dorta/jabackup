@@ -41,6 +41,21 @@ public class FileNode extends AbstractNode implements Child {
         this.father = father;
     }
 
+    @Override
+    public void initialize() {
+        father.getRoot().recordEntry(this);
+    }
+
+    @Override
+    public String getRelativePath() {
+        return father.getRelativePath() + f.getName();
+    }
+
+    @Override
+    public RootNode getRoot() {
+        return father.getRoot();
+    }
+
     public byte[] getSHA1() throws Exception {
         return getChecksum("SHA-1", f);
     }
@@ -74,7 +89,7 @@ public class FileNode extends AbstractNode implements Child {
             Main.addError(cee.getMessage());
             throw cee;
         } catch (Exception e) {
-            CodeErrorException ce = new CodeErrorException("Uncaught exception in FileNode.getChecksum: " + e.getClass().getCanonicalName());
+            CodeErrorException ce = new CodeErrorException("Uncaught exception in FileNode.getChecksum(): " + e.getClass().getCanonicalName());
             Main.addError(ce.getMessage());
             throw ce;
         }

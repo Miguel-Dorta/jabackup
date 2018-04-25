@@ -24,14 +24,33 @@
 package com.migueldorta.jabackup.filetree;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class RootNode extends AbstractDirectoryNode {
 
+    HashMap<String, AbstractNode> treeFiles;
+
     public RootNode(File f) {
         super(f);
+        treeFiles = new HashMap<>(200);
     }
 
     public RootNode(String s) {
         this(new File(s));
     }
+
+    @Override
+    public RootNode getRoot() {
+        return this;
+    }
+
+    @Override
+    public String getRelativePath() {
+        return "./";
+    }
+
+    protected void recordEntry(AbstractNode an) {
+        treeFiles.put(an.getRelativePath(), an);
+    }
+
 }

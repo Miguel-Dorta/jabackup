@@ -55,7 +55,8 @@ public abstract class Main {
 
         System.out.println(":: Saving origin file tree...");
         RootNode origin = new RootNode(input);
-        System.out.println("Done!");
+        origin.initialize();
+
         File destiny = new File(output, new Date().toString() + "_jabackup");
 
         if (os.isEmpty() || os.isTheNextBackupFull()) {

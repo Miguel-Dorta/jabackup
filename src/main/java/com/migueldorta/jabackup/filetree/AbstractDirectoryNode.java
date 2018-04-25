@@ -36,9 +36,13 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
 
     public AbstractDirectoryNode(File f) {
         super(f);
+    }
 
+    @Override
+    public void initialize() {
         File[] fa = f.listFiles();
         children = new ArrayList<>(fa.length);
+
         for (File child : fa) {
             if ((!Files.isSymbolicLink(child.toPath()) || FOLLOW_SLINKS) && (!child.isHidden() || ADD_HIDDEN)) {
                 if (child.isDirectory()) {
@@ -48,6 +52,12 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
                 }
             }
         }
+        initializeChilds();
+    }
+
+    protected void initializeChilds() {
+        children.stream().filter((an) -> (an instanceof AbstractDirectoryNode)).forEachOrdered((an)
+                -> ((AbstractDirectoryNode) an).initialize());
     }
 
 }

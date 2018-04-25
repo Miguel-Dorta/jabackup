@@ -38,4 +38,10 @@ public abstract class AbstractNode {
         }
     }
 
+    public abstract String getRelativePath();
+
+    public abstract RootNode getRoot();
+
+    public abstract void initialize();
+
 }

@@ -35,7 +35,6 @@ public class OutputSettings {
         System.out.println(":: Gathering previous backups settings...");
         output = new File(outputPath);
         list = calcArrayList(output);
-        System.out.println("Done!");
     }
 
     public boolean isEmpty() {

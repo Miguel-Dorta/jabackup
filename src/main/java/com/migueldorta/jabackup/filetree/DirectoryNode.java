@@ -33,4 +33,14 @@ public class DirectoryNode extends AbstractDirectoryNode implements Child {
         super(f);
         this.father = father;
     }
+
+    @Override
+    public String getRelativePath() {
+        return father.getRelativePath() + f.getName() + "/";
+    }
+
+    @Override
+    public RootNode getRoot() {
+        return father.getRoot();
+    }
 }
