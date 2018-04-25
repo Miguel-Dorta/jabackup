@@ -25,6 +25,7 @@ package com.migueldorta.jabackup;
 
 import com.migueldorta.jabackup.exceptions.InvalidArgumentException;
 import com.migueldorta.jabackup.utils.SweetStringBuilder;
+import java.io.IOException;
 
 public abstract class ArgumentReader {
 
@@ -119,6 +120,9 @@ public abstract class ArgumentReader {
                 System.out.println("Error parsing a parameter");
                 return 1;
             } catch (InvalidArgumentException e) {
+                System.out.println(e.getMessage());
+                return 1;
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
                 return 1;
             }

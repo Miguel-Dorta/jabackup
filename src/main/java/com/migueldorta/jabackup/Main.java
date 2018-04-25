@@ -26,6 +26,7 @@ package com.migueldorta.jabackup;
 import com.migueldorta.jabackup.filetree.RootNode;
 import com.migueldorta.jabackup.utils.Date;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -115,12 +116,21 @@ public abstract class Main {
         followSymbolicLinks = b;
     }
 
-    public static void setInput(String s) {
-        input = s;
+    public static void setInput(String s) throws IOException {
+        if (new File(s).canRead()) {
+            input = s;
+        } else {
+            throw new IOException("Unable to read " + s);
+        }
     }
 
-    public static void setOutput(String s) {
-        output = s;
+    public static void setOutput(String s) throws IOException {
+        File backupsFolder = new File(s);
+        if (backupsFolder.canRead() && backupsFolder.canWrite()) {
+            output = s;
+        } else {
+            throw new IOException("Unable to read/write " + s);
+        }
     }
 
     public static void setVerbose(boolean b) {
