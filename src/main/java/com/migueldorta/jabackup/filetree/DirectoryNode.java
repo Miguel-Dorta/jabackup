@@ -25,7 +25,7 @@ package com.migueldorta.jabackup.filetree;
 
 import java.io.File;
 
-public class DirectoryNode extends AbstractDirectoryNode implements Child {
+public class DirectoryNode extends AbstractDirectoryNode {
 
     protected AbstractDirectoryNode father;
 

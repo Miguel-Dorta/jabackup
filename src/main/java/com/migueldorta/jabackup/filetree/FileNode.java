@@ -33,7 +33,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class FileNode extends AbstractNode implements Child {
+public class FileNode extends AbstractNode {
 
     protected AbstractDirectoryNode father;
     protected byte[] md5;
