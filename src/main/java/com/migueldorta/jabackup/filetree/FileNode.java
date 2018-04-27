@@ -71,6 +71,10 @@ public class FileNode extends AbstractNode implements Child {
         return father.getRoot();
     }
 
+    public String getFileName() {
+        return f.getName();
+    }
+
     public byte[] getSHA1() throws Exception {
         return getChecksum("SHA-1", f);
     }
@@ -108,9 +112,5 @@ public class FileNode extends AbstractNode implements Child {
             Main.addError(ce.getMessage());
             throw ce;
         }
-    }
-
-    public void setFather(AbstractDirectoryNode father) {
-        this.father = father;
     }
 }

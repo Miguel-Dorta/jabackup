@@ -24,6 +24,7 @@
 package com.migueldorta.jabackup.filetree;
 
 import com.migueldorta.jabackup.Main;
+import com.migueldorta.jabackup.utils.RelativePath;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -66,27 +67,28 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         if (VERBOSE) {
             System.out.println("[Mkdir] " + newF);
         }
-        newF.mkdir();
+        newF.mkdirs();
         children.forEach((child) -> child.create());
     }
 
+    /* This will largely improve performance if the paths were objects that
+    internally work with String[], but it requires a serious refactor */
     public void addEntry(FileNode fn, String newPath) {
         boolean resultFound = false;
         for (AbstractNode child : children) {
-            if (child instanceof DirectoryNode && newPath.startsWith(child.getRelativePath())) {
+            if (RelativePath.compare(child.getRelativePath(), newPath) < 0 && child instanceof DirectoryNode) {
                 ((DirectoryNode) child).addEntry(fn, newPath);
                 resultFound = true;
                 break;
             }
         }
         if (!resultFound) {
-            String[] newPathArray = newPath.split(File.separator);
-            int nameIndex = (int) getRelativePath().codePoints().filter(ch -> ch == File.separatorChar).count();
-            if (newPathArray.length == nameIndex) {
-                fn.setFather(this);
+            String thisPath = getRelativePath();
+            if ((thisPath + RelativePath.getElementAt(newPath, -1)).equals(newPath)) {
+                fn.father = this;
                 children.add(fn);
             } else {
-                DirectoryNode subDirectory = new DirectoryNode(new File(f, newPathArray[nameIndex]), this);
+                DirectoryNode subDirectory = new DirectoryNode(new File(f, RelativePath.getElementAt(newPath, RelativePath.getNumberOfElements(thisPath) + 1)), this);
                 children.add(subDirectory);
                 subDirectory.addEntry(fn, newPath);
             }
