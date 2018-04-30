@@ -55,5 +55,7 @@ public abstract class AbstractNode {
 
     public abstract void initialize();
 
+    public abstract boolean rmEntry(String rmPath);
+
     public abstract void create();
 }

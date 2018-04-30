@@ -78,6 +78,16 @@ public class FileNode extends AbstractNode {
         md5 = null;
     }
 
+    @Override
+    public boolean rmEntry(String rmPath) {
+        if (rmPath.equals(getRelativePath())) {
+            rm();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public String getFileName() {
         return f.getName();
     }

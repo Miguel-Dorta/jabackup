@@ -114,6 +114,7 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         return sb.toString();
     }
 
+    @Override
     public boolean rmEntry(String rmPath) {
         String thisPath = getRelativePath();
         if (rmPath.startsWith(thisPath)) {
@@ -123,7 +124,7 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
             } else {
                 boolean found = false;
                 for (AbstractNode child : children) {
-                    found = rmEntry(rmPath);
+                    found = child.rmEntry(rmPath);
                     if (found) {
                         break;
                     }
