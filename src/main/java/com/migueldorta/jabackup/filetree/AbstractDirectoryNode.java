@@ -60,15 +60,6 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         children.forEach((child) -> child.initialize());
     }
 
-    protected AbstractNode getChildByName(String s) {
-        for (AbstractNode child : children) {
-            if (s.equals(child.f.getName())) {
-                return child;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void create() {
         File newF = new File(getRoot().f, getRelativePath());
