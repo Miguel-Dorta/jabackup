@@ -126,6 +126,7 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
                 for (AbstractNode child : children) {
                     found = child.rmEntry(rmPath);
                     if (found) {
+                        children.remove(child);
                         break;
                     }
                 }
