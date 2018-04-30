@@ -24,7 +24,6 @@
 package com.migueldorta.jabackup.filetree;
 
 import com.migueldorta.jabackup.Main;
-import com.migueldorta.jabackup.utils.RelativePath;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -61,6 +60,15 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         children.forEach((child) -> child.initialize());
     }
 
+    protected AbstractNode getChildByName(String s) {
+        for (AbstractNode child : children) {
+            if (s.equals(child.f.getName())) {
+                return child;
+            }
+        }
+        return null;
+    }
+
     @Override
     public void create() {
         File newF = new File(getRoot().f, getRelativePath());
@@ -71,28 +79,48 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         children.forEach((child) -> child.create());
     }
 
-    /* This will largely improve performance if the paths were objects that
-    internally work with String[], but it requires a serious refactor */
-    public void addEntry(FileNode fn, String newPath) {
-        boolean resultFound = false;
-        for (AbstractNode child : children) {
-            if (RelativePath.compare(child.getRelativePath(), newPath) < 0 && child instanceof DirectoryNode) {
-                ((DirectoryNode) child).addEntry(fn, newPath);
-                resultFound = true;
-                break;
+    public boolean addEntry(FileNode fn, String newPath) {
+        String thisPath = getRelativePath();
+        if (newPath.startsWith(thisPath)) {
+            boolean found = false;
+            for (AbstractNode child : children) {
+                if (child instanceof DirectoryNode) {
+                    found = ((DirectoryNode) child).addEntry(fn, newPath);
+                    if (found) {
+                        break;
+                    }
+                }
             }
-        }
-        if (!resultFound) {
-            String thisPath = getRelativePath();
-            if ((thisPath + RelativePath.getElementAt(newPath, -1)).equals(newPath)) {
-                fn.father = this;
-                children.add(fn);
-            } else {
-                DirectoryNode subDirectory = new DirectoryNode(new File(f, RelativePath.getElementAt(newPath, RelativePath.getNumberOfElements(thisPath) + 1)), this);
-                children.add(subDirectory);
-                subDirectory.addEntry(fn, newPath);
+
+            if (!found) {
+                String[] subpath = subpath(newPath).split(File.separator);
+                if (subpath.length == 1) {
+                    fn.father = this;
+                    children.add(fn);
+                } else {
+                    DirectoryNode dn = new DirectoryNode(new File(f, subpath[0]), this);
+                    children.add(dn);
+                    dn.addEntry(fn, newPath);
+                }
             }
+
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    protected String subpath(String newPath) {
+        String[] thisArrayPath = getRelativePath().split(File.separator),
+                newArrayPath = newPath.split(File.separator);
+        int thisPathLength = thisArrayPath[0].equals("") ? 0 : thisArrayPath.length;
+        StringBuilder sb = new StringBuilder((newArrayPath.length - thisPathLength) * 20);
+        for (int i = thisPathLength; i < newArrayPath.length; i++) {
+            sb.append(newArrayPath[i]);
+            sb.append(File.separator);
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
 }

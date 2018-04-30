@@ -26,7 +26,7 @@ package com.migueldorta.jabackup.exceptions;
 public class CodeErrorException extends Exception {
 
     public CodeErrorException(String arg) {
-        super("Error in code: \"" + arg + "\"." + System.lineSeparator() + "Please, report it in https://github.com/Miguel-Dorta/jabackup/issues");
+        super("Error in code: \"" + arg + "\"" + System.lineSeparator() + "Please, report it in https://github.com/Miguel-Dorta/jabackup/issues");
     }
 
 }
