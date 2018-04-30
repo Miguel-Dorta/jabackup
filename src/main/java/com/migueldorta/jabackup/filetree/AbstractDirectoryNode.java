@@ -114,4 +114,32 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         return sb.toString();
     }
 
+    public boolean rmEntry(String rmPath) {
+        String thisPath = getRelativePath();
+        if (rmPath.startsWith(thisPath)) {
+            if (rmPath.equals(thisPath)) {
+                rm();
+                return true;
+            } else {
+                boolean found = false;
+                for (AbstractNode child : children) {
+                    found = rmEntry(rmPath);
+                    if (found) {
+                        break;
+                    }
+                }
+                return found;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void rm() {
+        super.rm();
+        children.forEach((child) -> child.rm());
+        children = null;
+    }
+
 }

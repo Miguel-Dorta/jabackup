@@ -49,6 +49,12 @@ public class RootNode extends AbstractDirectoryNode {
         return "";
     }
 
+    @Override
+    public void rm() {
+        super.rm();
+        treeFiles = null;
+    }
+
     protected void recordEntry(AbstractNode an) {
         treeFiles.put(an.getRelativePath(), an);
     }

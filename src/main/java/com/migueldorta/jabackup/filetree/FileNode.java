@@ -71,6 +71,13 @@ public class FileNode extends AbstractNode {
         return father.getRoot();
     }
 
+    @Override
+    public void rm() {
+        super.rm();
+        father = null;
+        md5 = null;
+    }
+
     public String getFileName() {
         return f.getName();
     }

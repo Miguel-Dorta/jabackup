@@ -43,4 +43,10 @@ public class DirectoryNode extends AbstractDirectoryNode {
     public RootNode getRoot() {
         return father.getRoot();
     }
+
+    @Override
+    public void rm() {
+        super.rm();
+        father = null;
+    }
 }

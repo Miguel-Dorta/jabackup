@@ -42,6 +42,13 @@ public abstract class AbstractNode {
         this.f = f;
     }
 
+    public void rm() {
+        if (VERBOSE) {
+            System.out.println("[Removing] " + f);
+        }
+        f = null;
+    }
+
     public abstract String getRelativePath();
 
     public abstract RootNode getRoot();
