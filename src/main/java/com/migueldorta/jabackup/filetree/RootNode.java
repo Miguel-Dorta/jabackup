@@ -57,16 +57,7 @@ public class RootNode extends AbstractDirectoryNode {
 
     @Override
     protected void initializeChilds() {
-        AbstractNode ini = null;
-        for (AbstractNode child : children) {
-            if (child.f.getName().equals("BackupSettings.ini")) {
-                ini = child;
-                break;
-            }
-        }
-        if (ini != null) {
-            children.remove(ini);
-        }
+        rmEntry("BackupSettings.ini");
         super.initializeChilds();
     }
 
