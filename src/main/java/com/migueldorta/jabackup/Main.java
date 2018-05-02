@@ -84,6 +84,11 @@ public abstract class Main {
         return 0;
     }
 
+    public static int restoreBackup() {
+        System.out.println("Not supported yet");
+        return 0;
+    }
+
     public static void addError(String s) {
         errorLog.add(s);
     }

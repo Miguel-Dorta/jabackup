@@ -38,6 +38,7 @@ public abstract class ArgumentReader {
             HELP_STRING = "help",
             HIDDEN_STRING = "hidden",
             SYMLINK_STRING = "link",
+            RESTORE_STRING = "restore",
             UPDATE_STRING = "update",
             VERBOSE_STRING = "verbose",
             VERSION_STRING = "version";
@@ -46,6 +47,7 @@ public abstract class ArgumentReader {
             FULL_CHAR = 'f',
             HELP_CHAR = 'h',
             SYMLINK_CHAR = 'l',
+            RESTORE_CHAR = 'r',
             UPDATE_CHAR = 'u',
             VERBOSE_CHAR = 'v';
 
@@ -68,6 +70,8 @@ public abstract class ArgumentReader {
                                 case SYMLINK_STRING:
                                     Main.setFollowSymbolicLinks(true);
                                     break;
+                                case RESTORE_STRING:
+                                    return Main.restoreBackup();
                                 case UPDATE_STRING:
                                     return Main.updateJabackup();
                                 case VERBOSE_STRING:
@@ -88,6 +92,8 @@ public abstract class ArgumentReader {
                                         return Main.createFullBackup();
                                     case HELP_CHAR:
                                         return printHelp();
+                                    case RESTORE_CHAR:
+                                        return Main.restoreBackup();
                                     case SYMLINK_CHAR:
                                         Main.setFollowSymbolicLinks(true);
                                         break;
@@ -119,10 +125,7 @@ public abstract class ArgumentReader {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("Error parsing a parameter");
                 return 1;
-            } catch (InvalidArgumentException e) {
-                System.out.println(e.getMessage());
-                return 1;
-            } catch (IOException e) {
+            } catch (InvalidArgumentException | IOException e) {
                 System.out.println(e.getMessage());
                 return 1;
             }
@@ -150,6 +153,7 @@ public abstract class ArgumentReader {
                 "  -", FULL_CHAR, ", --", FULL_STRING, "     Creates a full backup instead of incremental.", LS,
                 "  -", HELP_CHAR, ", --", HELP_STRING, "     Shows this message.", LS,
                 "  -", SYMLINK_CHAR, ", --", SYMLINK_STRING, "     Follow symbolic links.", LS,
+                "  -", RESTORE_CHAR, ", --", RESTORE_STRING, "  Restores backups into \"", OUTPUT, "\".", LS,
                 "  -", UPDATE_CHAR, ", --", UPDATE_STRING, "   Updates jabackup at the latest stable version.", LS,
                 "  -", VERBOSE_CHAR, ", --", VERBOSE_STRING, "  Displays detailed information.", LS,
                 "  --", VERSION_STRING, "      Displays jabackup version.", LS,
