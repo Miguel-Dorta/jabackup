@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 public class RootNode extends AbstractDirectoryNode {
 
-    HashMap<String, AbstractNode> treeFiles;
+    HashMap<String, FileNode> treeFiles;
 
     public RootNode(File f) {
         super(f);
@@ -61,12 +61,12 @@ public class RootNode extends AbstractDirectoryNode {
         super.initializeChilds();
     }
 
-    protected void recordEntry(AbstractNode an) {
-        treeFiles.put(an.getRelativePath(), an);
+    protected void recordEntry(FileNode fn) {
+        treeFiles.put(fn.getRelativePath(), fn);
     }
 
-    public void rmRecord(AbstractNode an) {
-        treeFiles.remove(an.getRelativePath(), an);
+    public void rmRecord(FileNode fn) {
+        treeFiles.remove(fn.getRelativePath(), fn);
     }
 
 }
