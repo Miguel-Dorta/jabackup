@@ -137,6 +137,20 @@ public abstract class AbstractDirectoryNode extends AbstractNode {
         }
     }
 
+    public FileNode getFile(String path) {
+        String thisPath = getRelativePath();
+        for (AbstractNode child : children) {
+            if (path.startsWith(child.getRelativePath())) {
+                if (child instanceof AbstractDirectoryNode) {
+                    return ((AbstractDirectoryNode) child).getFile(path);
+                } else {
+                    return (FileNode) child;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void rm() {
         super.rm();

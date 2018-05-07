@@ -24,7 +24,10 @@
 package com.migueldorta.jabackup.filetree;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RootNode extends AbstractDirectoryNode {
 
@@ -69,4 +72,15 @@ public class RootNode extends AbstractDirectoryNode {
         treeFiles.remove(fn.getRelativePath(), fn);
     }
 
+//    public void compare(RootNode rn) {
+//        treeFiles.forEach((s1, fn1) -> {
+//            FileNode fn2 = rn.treeFiles.get(s1);
+//            if (fn2 != null) {
+//                if (!Arrays.equals(fn1.getMD5(), fn2.getMD5())) {
+//                    //Modified
+//                }
+//                //Not modified
+//            }
+//        });
+//    }
 }
