@@ -73,6 +73,7 @@ public class FileNode extends AbstractNode {
 
     @Override
     public void rm() {
+        getRoot().rmRecord(this);
         super.rm();
         father = null;
         md5 = null;

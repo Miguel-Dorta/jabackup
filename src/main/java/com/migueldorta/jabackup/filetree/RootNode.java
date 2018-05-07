@@ -65,4 +65,8 @@ public class RootNode extends AbstractDirectoryNode {
         treeFiles.put(an.getRelativePath(), an);
     }
 
+    public void rmRecord(AbstractNode an) {
+        treeFiles.remove(an.getRelativePath(), an);
+    }
+
 }
