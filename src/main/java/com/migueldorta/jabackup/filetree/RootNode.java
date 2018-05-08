@@ -24,10 +24,7 @@
 package com.migueldorta.jabackup.filetree;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RootNode extends AbstractDirectoryNode {
 
@@ -72,15 +69,46 @@ public class RootNode extends AbstractDirectoryNode {
         treeFiles.remove(fn.getRelativePath(), fn);
     }
 
-//    public void compare(RootNode rn) {
-//        treeFiles.forEach((s1, fn1) -> {
-//            FileNode fn2 = rn.treeFiles.get(s1);
-//            if (fn2 != null) {
-//                if (!Arrays.equals(fn1.getMD5(), fn2.getMD5())) {
-//                    //Modified
-//                }
-//                //Not modified
-//            }
-//        });
-//    }
+    public void compare(RootNode rn) {
+        rn.treeFiles.entrySet().parallelStream().forEach(e -> {
+            String s2 = e.getKey();
+            FileNode fn2 = e.getValue();
+
+            if (treeFiles.containsKey(s2)) { // s2 are the paths that exists in both rn and this
+                FileNode fn1 = treeFiles.get(s2);
+                try {
+                    if (FileNode.haveSameChecksum(fn1, fn2)) {
+                        // NOT MODIFIED
+                    } else {
+                        // MODIFIED
+                    }
+                } catch (Exception ex) {
+                    /* This exception is correctly catched in FileNode. It's
+                    thrown to know that the hash is impossible to get, so it
+                    avoids unespected behaviour */
+                }
+            } else { // s2 are only the paths that exists in rn, but not in this object
+                treeFiles.forEach((s1, fn1) -> {
+                    try {
+                        if (FileNode.haveSameChecksum(fn1, fn2)) {
+                            // COPIED
+                        } else {
+                            // ADDED
+                        }
+                    } catch (Exception ex) {
+                        /* This exception is correctly catched in FileNode. It's
+                        thrown to know that the hash is impossible to get, so it
+                        avoids unespected behaviour */
+                    }
+                });
+            }
+        });
+
+        treeFiles.entrySet().parallelStream().forEach(s -> {
+            if (rn.treeFiles.containsKey(s.getKey())) {
+                // REMOVED
+            }
+        });
+
+    }
 }

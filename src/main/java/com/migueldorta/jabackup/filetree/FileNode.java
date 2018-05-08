@@ -32,6 +32,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class FileNode extends AbstractNode {
 
@@ -41,6 +42,10 @@ public class FileNode extends AbstractNode {
     public FileNode(File f, AbstractDirectoryNode father) {
         super(f);
         this.father = father;
+    }
+
+    public static boolean haveSameChecksum(FileNode fn1, FileNode fn2) throws Exception {
+        return Arrays.equals(fn1.getMD5(), fn2.getMD5()) && Arrays.equals(fn1.getSHA1(), fn2.getSHA1());
     }
 
     @Override
